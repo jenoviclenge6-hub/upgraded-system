@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Complexe Scolaire Goschen-Ville</title>
+  <style>
+    :root {
+      --primary: #1d3a5c;
+      --accent: #f2c14e;
+      --light: #f9f7f3;
+      --dark: #0b1b2b;
+      --overlay: rgba(0, 0, 0, 0.42);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      color: #fff;
+      min-height: 100vh;
+      background: linear-gradient(to bottom, rgba(13, 32, 56, 0.85), rgba(13, 32, 56, 0.95)), url("ar.jpg") center/cover no-repeat;
+      scroll-behavior: smooth;
+    }
+
+    .page {
+      width: min(1200px, 92%);
+      margin: 0 auto;
+      padding: 24px 0 64px;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 14px 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo img {
+      width: 72px;
+      height: 72px;
+      border-radius: 16px;
+      object-fit: cover;
+      border: 2px solid rgba(242, 193, 78, 0.9);
+    }
+
+    .brand {
+      line-height: 1.1;
+    }
+
+    .brand strong {
+      display: block;
+      font-size: 1.3rem;
+      letter-spacing: 0.06em;
+    }
+
+    .brand span {
+      color: #f2c14e;
+      font-size: 0.98rem;
+    }
+
+    nav {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
+
+    nav a:hover {
+      color: #f2c14e;
+    }
+
+    .hero {
+      margin: 64px 0 52px;
+      display: grid;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .hero-content {
+      max-width: 680px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.8rem, 5vw, 4.4rem);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+      margin-bottom: 18px;
+    }
+
+    .hero p {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: #e8e3dd;
+      margin-bottom: 26px;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 15px 26px;
+      border-radius: 999px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .button.primary {
+      background: var(--accent);
+      color: var(--dark);
+    }
+
+    .button.secondary {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+    }
+
+    .button, .form-submit {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .button.animate, .form-submit.animate {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .hero-image {
+      max-width: 520px;
+      width: 100%;
+      border-radius: 28px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 20px 55px rgba(0, 0, 0, 0.32);
+    }
+
+    .hero-image img,
+    .card img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+      min-height: 420px;
+      transition: transform 0.35s ease, filter 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .hero-image img:hover,
+    .card img:hover {
+      transform: scale(1.03);
+      filter: saturate(1.05) brightness(1.04);
+      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.28);
+    }
+
+    section {
+      margin-bottom: 50px;
+      background: rgba(8, 20, 38, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      padding: 34px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    }
+
+    section h2 {
+      margin-bottom: 20px;
+      color: #f2c14e;
+      font-size: 1.9rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      padding: 24px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(242, 193, 78, 0.16);
+    }
+
+    .card h3 {
+      margin-bottom: 12px;
+      font-size: 1.25rem;
+    }
+
+    .card p {
+      color: #d8d3cd;
+      line-height: 1.72;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .form-field label {
+      font-weight: 700;
+      color: #f2c14e;
+    }
+
+    .form-field input,
+    .form-field select,
+    .form-field textarea {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      font-size: 0.98rem;
+    }
+
+    .form-field textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    .form-submit {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 16px;
+      padding: 16px 26px;
+      border: none;
+      border-radius: 999px;
+      background: var(--accent);
+      color: var(--dark);
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .form-submit:hover {
+      transform: translateY(-2px);
+      opacity: 0.95;
+    }
+
+    .form-note {
+      margin-top: 10px;
+      color: #e8e3dd;
+      font-size: 0.95rem;
+    }
+
+    footer {
+      text-align: center;
+      color: #b8b4b0;
+      font-size: 0.95rem;
+      padding-top: 16px;
+    }
+
+    @media (max-width: 860px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .hero {
+        margin-top: 42px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="logo">
+        <img src="img.jpg.jpg" alt="Logo Complexe Scolaire Goschen-Ville">
+        <div class="brand">
+          <strong>Complexe Scolaire Goschen-Ville</strong>
+          <span>Éducation, excellence et avenir</span>
+        </div>
+      </div>
+      <nav>
+        <a href="#mission">Mission</a>
+        <a href="#activites">Activités</a>
+        <a href="#valeurs">Valeurs</a>
+        <a href="#inscription">Inscription</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-content">
+          <h1>Bienvenue au Complexe Scolaire Goschen-Ville</h1>
+          <p>Un établissement moderne où chaque élève trouve un accompagnement adapté, des ateliers innovants et un environnement sûr pour grandir et réussir.</p>
+          <div class="buttons">
+            <a class="button primary" href="#mission">Notre mission</a>
+            <a class="button secondary" href="#contact">Nous contacter</a>
+          </div>
+        </div>
+        <div class="hero-image">
+          <img src="ar.jpg" alt="Arrière-plan Complexe Scolaire Goschen-Ville">
+        </div>
+      </section>
+
+      <section id="mission">
+        <h2>Notre mission</h2>
+        <p>Au Complexe Scolaire Goschen-Ville, nous formons des citoyens confiants, responsables et capables de relever les défis de demain. Notre pédagogie repose sur l'excellence académique, le développement personnel et l'ouverture sur le monde.</p>
+      </section>
+
+      <section id="activites">
+        <h2>Activités et programmes</h2>
+        <div class="grid-3">
+          <div class="card">
+            <h3>Programme scolaire</h3>
+            <p>Des classes organisées par niveau avec des enseignants passionnés et des programmes enrichis en sciences, langues et technologies.</p>
+          </div>
+          <div class="card">
+            <h3>Ateliers et clubs</h3>
+            <p>Clubs de robotique, arts, musique et sport pour encourager la créativité, l'esprit d'équipe et l'initiative personnelle.</p>
+          </div>
+          <div class="card">
+            <h3>Orientation</h3>
+            <p>Accompagnement personnalisé pour chaque élève, soutien scolaire et préparation aux examens afin d'ouvrir le meilleur chemin vers l'avenir.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="valeurs">
+        <h2>Nos valeurs</h2>
+        <div class="grid-3">
+          <div class="card">
+            <h3>Respect</h3>
+            <p>Un climat de confiance et de bienveillance où chaque élève est encouragé à s'exprimer et à respecter les autres.</p>
+          </div>
+          <div class="card">
+            <h3>Innovation</h3>
+            <p>Des méthodes pédagogiques modernes, des ressources numériques et des projets concrets pour stimuler l'apprentissage.</p>
+          </div>
+          <div class="card">
+            <h3>Communauté</h3>
+            <p>Une famille éducative unie, composée des élèves, des parents et des enseignants engagés pour un même succès.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="galerie">
+        <h2>Galerie</h2>
+        <div class="grid-3">
+          <div class="card" style="padding: 0; overflow: hidden;">
+            <img src="B1.jpg" alt="Élèves au Complexe Scolaire" style="width:100%; display:block; object-fit:cover; min-height:180px;">
+          </div>
+          <div class="card" style="padding: 0; overflow: hidden;">
+            <img src="E1.jpg" alt="Salle de classe" style="width:100%; display:block; object-fit:cover; min-height:180px;">
+          </div>
+          <div class="card" style="padding: 0; overflow: hidden;">
+            <img src="E2.jpg" alt="Activités scolaires" style="width:100%; display:block; object-fit:cover; min-height:180px;">
+          </div>
+        </div>
+      </section>
+
+      <section id="inscription">
+        <h2>Inscription</h2>
+        <p>Inscrivez un nouvel élève en remplissant ce formulaire. Votre client de messagerie s’ouvrira pour envoyer l’inscription à l’administrateur.</p>
+        <form id="registrationForm" class="card" style="background: rgba(255, 255, 255, 0.06); border-color: rgba(242, 193, 78, 0.16);">
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="studentName">Nom complet de l'élève</label>
+              <input type="text" id="studentName" name="studentName" placeholder="Nom de l'élève" required>
+            </div>
+            <div class="form-field">
+              <label for="birthDate">Date de naissance</label>
+              <input type="date" id="birthDate" name="birthDate" required>
+            </div>
+            <div class="form-field">
+              <label for="studentClass">Classe / Niveau</label>
+              <select id="studentClass" name="studentClass" required>
+                <option value="">Sélectionnez un niveau</option>
+                <option>Préprimaire</option>
+                <option>Primaire</option>
+                <option>Secondaire</option>
+                <option>Autre</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="parentEmail">Email du parent</label>
+              <input type="email" id="parentEmail" name="parentEmail" placeholder="parent@example.com" required>
+            </div>
+          </div>
+          <div class="form-field">
+            <label for="parentPhone">Téléphone du parent</label>
+            <input type="tel" id="parentPhone" name="parentPhone" placeholder="+237 6 00 00 00 00">
+          </div>
+          <div class="form-field">
+            <label for="parentName">Nom du parent / tuteur</label>
+            <input type="text" id="parentName" name="parentName" placeholder="Nom du parent ou tuteur" required>
+          </div>
+          <div class="form-field">
+            <label for="notes">Informations supplémentaires</label>
+            <textarea id="notes" name="notes" placeholder="Ex : souhaits, besoins particuliers, etc."></textarea>
+          </div>
+          <button type="button" id="sendEmailButton" class="form-submit">Envoyer l'inscription</button>
+          <p class="form-note">Après avoir cliqué sur Envoyer, votre client email s’ouvrira avec le message d’inscription. Si une page vide s’ouvre, vérifiez que vous avez un client mail par défaut configuré.</p>
+        </form>
+      </section>
+
+      <section id="contact">
+        <h2>Contact</h2>
+        <p>Envie d'en savoir plus sur le Complexe Scolaire Goschen-Ville ? Contactez-nous pour une visite, une inscription ou une demande d'information.</p>
+        <div class="card" style="background: rgba(242, 193, 78, 0.1); color: #fff; border-color: rgba(242, 193, 78, 0.3);">
+          <h3>Adresse</h3>
+          <p>924, Av du 30 juin, C/Lubumbashi</p>
+          <h3>Email</h3>
+          <p>jenoviclenge6@gmail.com</p>
+          <h3>Téléphone</h3>
+          <p>0995111417</p>
+          <p>0997022301</p>
+          <p>0853379567</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      &copy; 2026 Complexe Scolaire Goschen-Ville. Tous droits réservés.
+    </footer>
+  </div>
+  <script>
+    // Fonction pour vérifier si un élément est visible
+    function isElementInViewport(el) {
+      const rect = el.getBoundingClientRect();
+      return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+      );
+    }
+
+    // Fonction pour animer les boutons visibles
+    function animateButtons() {
+      const buttons = document.querySelectorAll('.button, .form-submit');
+      buttons.forEach(button => {
+        if (isElementInViewport(button)) {
+          button.classList.add('animate');
+        }
+      });
+    }
+
+    // Écouteur d'événement pour le scroll
+    window.addEventListener('scroll', animateButtons);
+
+    // Animer au chargement de la page
+    window.addEventListener('load', animateButtons);
+
+    document.getElementById('sendEmailButton').addEventListener('click', function() {
+      const studentName = document.getElementById('studentName').value.trim();
+      const birthDate = document.getElementById('birthDate').value;
+      const studentClass = document.getElementById('studentClass').value;
+      const parentEmail = document.getElementById('parentEmail').value.trim();
+      const parentPhone = document.getElementById('parentPhone').value.trim();
+      const parentName = document.getElementById('parentName').value.trim();
+      const notes = document.getElementById('notes').value.trim();
+
+      const subject = 'Nouvelle inscription - Complexe Scolaire Goschen-Ville';
+      const body = [
+        'Nouvelle inscription',
+        '',
+        'Nom complet de l\'élève : ' + studentName,
+        'Date de naissance : ' + birthDate,
+        'Classe / Niveau : ' + studentClass,
+        '',
+        'Nom du parent / tuteur : ' + parentName,
+        'Email du parent : ' + parentEmail,
+        'Téléphone du parent : ' + parentPhone,
+        '',
+        'Informations supplémentaires :',
+        notes || 'Aucune',
+      ].join('\r\n');
+
+      const mailtoLink = 'mailto:jenoviclenge6@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+      const anchor = document.createElement('a');
+      anchor.href = mailtoLink;
+      anchor.style.display = 'none';
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+    });
+  </script>
+</body>
+</html>
